@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cjm-capability-primitives"
+dynamic = ["version"]
+description = "The dep-light primitives library for the cjm capability ecosystem — defines the shared cross-task result DTOs (data nouns) that tool capabilities emit and task adapters, workflow cores, and the composition layer all consume, so a pure-compute tool capability depends only on its task's data noun, never on the adapter machinery."
+readme = "README.md"
+requires-python = ">=3.12"
+license = {text = "Apache-2.0"}
+authors = [{name = "Christian J. Mills", email = "9126128+cj-mills@users.noreply.github.com"}]
+keywords = ['nbdev']
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+]
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/cj-mills/cjm-capability-primitives"
+Documentation = "https://cj-mills.github.io/cjm-capability-primitives/"
+
+[project.entry-points.nbdev]
+cjm_capability_primitives = "cjm_capability_primitives._modidx:d"
+
+[tool.setuptools.dynamic]
+version = {attr = "cjm_capability_primitives.__version__"}
+
+[tool.setuptools.packages.find]
+include = ["cjm_capability_primitives"]
+
+[tool.nbdev]
