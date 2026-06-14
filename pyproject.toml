@@ -15,7 +15,9 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
 ]
-dependencies = []
+dependencies = [
+    "cjm_plugin_system>=0.0.45",
+]
 
 [project.urls]
 Repository = "https://github.com/cj-mills/cjm-capability-primitives"

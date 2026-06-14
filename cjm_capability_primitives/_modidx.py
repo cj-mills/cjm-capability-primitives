@@ -5,4 +5,5 @@ d = { 'settings': { 'branch': 'main',
                 'doc_host': 'https://cj-mills.github.io',
                 'git_url': 'https://github.com/cj-mills/cjm-capability-primitives',
                 'lib_path': 'cjm_capability_primitives'},
-  'syms': {}}
+  'syms': { 'cjm_capability_primitives.transcription': { 'cjm_capability_primitives.transcription.TranscriptionResult': ( 'transcription.html#transcriptionresult',
+                                                                                                                          'cjm_capability_primitives/transcription.py')}}}
