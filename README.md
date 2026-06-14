@@ -8,3 +8,54 @@
 ``` bash
 pip install cjm_capability_primitives
 ```
+
+## Project Structure
+
+    nbs/
+    └── transcription.ipynb # Standardized result DTO for the transcription task — the data noun tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
+
+Total: 1 notebook
+
+## Module Dependencies
+
+``` mermaid
+graph LR
+    transcription["transcription<br/>Transcription Result"]
+```
+
+No cross-module dependencies detected.
+
+## CLI Reference
+
+No CLI commands found in this project.
+
+## Module Overview
+
+Detailed documentation for each module in the project:
+
+### Transcription Result (`transcription.ipynb`)
+
+> Standardized result DTO for the transcription task — the data noun
+> tool capabilities emit and task adapters / workflow cores consume,
+> wire-registered so results cross the worker boundary typed.
+
+#### Import
+
+``` python
+from cjm_capability_primitives.transcription import (
+    TranscriptionResult
+)
+```
+
+#### Classes
+
+``` python
+@dataclass
+class TranscriptionResult:
+    "Standardized output for all transcription plugins."
+    
+    text: str  # The transcribed text
+    confidence: Optional[float]  # Overall confidence (0.0 to 1.0)
+    segments: Optional[List[Dict[str, Any]]]  # Timestamped segments
+    metadata: Dict[str, Any] = field(...)  # Additional metadata
+```
