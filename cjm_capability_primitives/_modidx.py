@@ -6,4 +6,12 @@ d = { 'settings': { 'branch': 'main',
                 'git_url': 'https://github.com/cj-mills/cjm-capability-primitives',
                 'lib_path': 'cjm_capability_primitives'},
   'syms': { 'cjm_capability_primitives.transcription': { 'cjm_capability_primitives.transcription.TranscriptionResult': ( 'transcription.html#transcriptionresult',
-                                                                                                                          'cjm_capability_primitives/transcription.py')}}}
+                                                                                                                          'cjm_capability_primitives/transcription.py')},
+            'cjm_capability_primitives.vad': { 'cjm_capability_primitives.vad.TimeRange': ( 'vad.html#timerange',
+                                                                                            'cjm_capability_primitives/vad.py'),
+                                               'cjm_capability_primitives.vad.TimeRange.to_dict': ( 'vad.html#timerange.to_dict',
+                                                                                                    'cjm_capability_primitives/vad.py'),
+                                               'cjm_capability_primitives.vad.VADResult': ( 'vad.html#vadresult',
+                                                                                            'cjm_capability_primitives/vad.py'),
+                                               'cjm_capability_primitives.vad.VADResult.from_dict': ( 'vad.html#vadresult.from_dict',
+                                                                                                      'cjm_capability_primitives/vad.py')}}}
