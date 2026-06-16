@@ -7,13 +7,13 @@ Docs: https://cj-mills.github.io/cjm-capability-primitivesvad.html.md"""
 # %% auto #0
 __all__ = ['TimeRange', 'VADResult']
 
-# %% ../nbs/vad.ipynb #796b41eb
+# %% ../nbs/vad.ipynb #90836580
 from dataclasses import dataclass, field, asdict
 from typing import Any, Dict, List, Optional
 
 from cjm_plugin_system.core.wire import wire_type
 
-# %% ../nbs/vad.ipynb #74a8067b
+# %% ../nbs/vad.ipynb #b153c97b
 @dataclass
 class TimeRange:
     """A temporal segment within an audio source (the VAD speech/silence span)."""
@@ -27,7 +27,7 @@ class TimeRange:
         """Convert to dictionary for JSON serialization."""
         return asdict(self)
 
-# %% ../nbs/vad.ipynb #c454ba1b
+# %% ../nbs/vad.ipynb #1bf51875
 @wire_type("vad.result")
 @dataclass
 class VADResult:

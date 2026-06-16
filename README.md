@@ -12,15 +12,17 @@ pip install cjm_capability_primitives
 ## Project Structure
 
     nbs/
-    └── transcription.ipynb # Standardized result DTO for the transcription task — the data noun tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
+    ├── transcription.ipynb # Standardized result DTO for the transcription task — the data noun tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
+    └── vad.ipynb           # Standardized result DTO for the voice-activity-detection task — the data noun VAD tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
 
-Total: 1 notebook
+Total: 2 notebooks
 
 ## Module Dependencies
 
 ``` mermaid
 graph LR
     transcription["transcription<br/>Transcription Result"]
+    vad["vad<br/>VAD Result"]
 ```
 
 No cross-module dependencies detected.
@@ -58,4 +60,53 @@ class TranscriptionResult:
     confidence: Optional[float]  # Overall confidence (0.0 to 1.0)
     segments: Optional[List[Dict[str, Any]]]  # Timestamped segments
     metadata: Dict[str, Any] = field(...)  # Additional metadata
+```
+
+### VAD Result (`vad.ipynb`)
+
+> Standardized result DTO for the voice-activity-detection task — the
+> data noun VAD tool capabilities emit and task adapters / workflow
+> cores consume, wire-registered so results cross the worker boundary
+> typed.
+
+#### Import
+
+``` python
+from cjm_capability_primitives.vad import (
+    TimeRange,
+    VADResult
+)
+```
+
+#### Classes
+
+``` python
+@dataclass
+class TimeRange:
+    "A temporal segment within an audio source (the VAD speech/silence span)."
+    
+    start: float  # Start time in seconds
+    end: float  # End time in seconds
+    label: str = 'speech'  # Segment type (e.g. 'speech')
+    confidence: Optional[float]  # Detection confidence (0.0 to 1.0)
+    payload: Dict[str, Any] = field(...)  # Extra data (reserved)
+    
+    def to_dict(self) -> Dict[str, Any]:  # Serialized representation
+        "Convert to dictionary for JSON serialization."
+```
+
+``` python
+@dataclass
+class VADResult:
+    "Standardized output for voice-activity-detection capabilities."
+    
+    ranges: List[TimeRange]  # Detected speech segments, sorted by start
+    metadata: Dict[str, Any] = field(...)  # Global VAD stats (duration, sample_rate, total_speech, ...)
+    
+    def from_dict(
+        "Reconstruct from a wire payload, re-typing nested TimeRanges.
+
+`ranges` holds typed `TimeRange` objects, so the substrate's typed wire
+envelope (stage 2) reconstructs them host-side here rather than leaving
+bare dicts (which would break attribute access like `r.start`)."
 ```
