@@ -12,15 +12,17 @@ pip install cjm_capability_primitives
 ## Project Structure
 
     nbs/
-    ├── transcription.ipynb # Standardized result DTO for the transcription task — the data noun tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
-    └── vad.ipynb           # Standardized result DTO for the voice-activity-detection task — the data noun VAD tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
+    ├── forced_alignment.ipynb # Standardized word-level forced-alignment DTOs — the data noun forced-alignment tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
+    ├── transcription.ipynb    # Standardized result DTO for the transcription task — the data noun tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
+    └── vad.ipynb              # Standardized result DTO for the voice-activity-detection task — the data noun VAD tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
 
-Total: 2 notebooks
+Total: 3 notebooks
 
 ## Module Dependencies
 
 ``` mermaid
 graph LR
+    forced_alignment["forced_alignment<br/>Forced Alignment Result"]
     transcription["transcription<br/>Transcription Result"]
     vad["vad<br/>VAD Result"]
 ```
@@ -34,6 +36,50 @@ No CLI commands found in this project.
 ## Module Overview
 
 Detailed documentation for each module in the project:
+
+### Forced Alignment Result (`forced_alignment.ipynb`)
+
+> Standardized word-level forced-alignment DTOs — the data noun
+> forced-alignment tool capabilities emit and task adapters / workflow
+> cores consume, wire-registered so results cross the worker boundary
+> typed.
+
+#### Import
+
+``` python
+from cjm_capability_primitives.forced_alignment import (
+    ForcedAlignItem,
+    ForcedAlignResult
+)
+```
+
+#### Classes
+
+``` python
+@dataclass
+class ForcedAlignItem:
+    "A single word-level alignment result."
+    
+    text: str  # The aligned word (punctuation typically stripped by model)
+    start_time: float  # Start time in seconds
+    end_time: float  # End time in seconds
+```
+
+``` python
+@dataclass
+class ForcedAlignResult:
+    "Standardized output for all forced alignment capabilities."
+    
+    items: List[ForcedAlignItem]  # Word-level alignments
+    metadata: Dict[str, Any] = field(...)  # Capability-specific metadata
+    
+    def from_dict(
+        "Reconstruct from a wire payload, re-typing nested items.
+
+`items` holds typed `ForcedAlignItem` objects, so the substrate's typed
+wire envelope (stage 2) reconstructs them host-side here rather than
+leaving bare dicts (which would break attribute access like `it.text`)."
+```
 
 ### Transcription Result (`transcription.ipynb`)
 
