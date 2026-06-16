@@ -12,17 +12,19 @@ pip install cjm_capability_primitives
 ## Project Structure
 
     nbs/
-    ├── forced_alignment.ipynb # Standardized word-level forced-alignment DTOs — the data noun forced-alignment tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
-    ├── transcription.ipynb    # Standardized result DTO for the transcription task — the data noun tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
-    └── vad.ipynb              # Standardized result DTO for the voice-activity-detection task — the data noun VAD tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
+    ├── forced_alignment.ipynb  # Standardized word-level forced-alignment DTOs — the data noun forced-alignment tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
+    ├── source_separation.ipynb # Standardized result DTO for the source-separation (audio-preprocessing) task — the data noun source-separation tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
+    ├── transcription.ipynb     # Standardized result DTO for the transcription task — the data noun tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
+    └── vad.ipynb               # Standardized result DTO for the voice-activity-detection task — the data noun VAD tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
 
-Total: 3 notebooks
+Total: 4 notebooks
 
 ## Module Dependencies
 
 ``` mermaid
 graph LR
     forced_alignment["forced_alignment<br/>Forced Alignment Result"]
+    source_separation["source_separation<br/>Source Separation Result"]
     transcription["transcription<br/>Transcription Result"]
     vad["vad<br/>VAD Result"]
 ```
@@ -79,6 +81,40 @@ class ForcedAlignResult:
 `items` holds typed `ForcedAlignItem` objects, so the substrate's typed
 wire envelope (stage 2) reconstructs them host-side here rather than
 leaving bare dicts (which would break attribute access like `it.text`)."
+```
+
+### Source Separation Result (`source_separation.ipynb`)
+
+> Standardized result DTO for the source-separation
+> (audio-preprocessing) task — the data noun source-separation tool
+> capabilities emit and task adapters / workflow cores consume,
+> wire-registered so results cross the worker boundary typed.
+
+#### Import
+
+``` python
+from cjm_capability_primitives.source_separation import (
+    SourceSeparationResult
+)
+```
+
+#### Classes
+
+``` python
+@dataclass
+class SourceSeparationResult:
+    """
+    Standardized output for source-separation (audio-preprocessing) capabilities.
+    
+    The payload is an AUDIO ARTIFACT, not inline data: `output_path` is the
+    produced isolated-audio file (e.g. the vocals stem) the tool wrote to the
+    location the adapter chose. `metadata` carries the stats the fused-era
+    return dict held (duration, sample_rate, model, stems_available, and any
+    extra-stem paths when the tool was asked to keep them).
+    """
+    
+    output_path: str  # Path to the produced isolated-audio artifact (e.g. vocals stem)
+    metadata: Dict[str, Any] = field(...)  # Stats (duration, sample_rate, model, stems_available, other_stems, ...)
 ```
 
 ### Transcription Result (`transcription.ipynb`)
