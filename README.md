@@ -13,17 +13,19 @@ pip install cjm_capability_primitives
 
     nbs/
     ├── forced_alignment.ipynb  # Standardized word-level forced-alignment DTOs — the data noun forced-alignment tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
+    ├── media_processing.ipynb  # Standardized result DTOs for the media-processing task — the data nouns media-processing tool capabilities (ffmpeg today) emit and the multi-method task adapter / workflow cores consume, wire-registered so results cross the worker boundary typed.
     ├── source_separation.ipynb # Standardized result DTO for the source-separation (audio-preprocessing) task — the data noun source-separation tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
     ├── transcription.ipynb     # Standardized result DTO for the transcription task — the data noun tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
     └── vad.ipynb               # Standardized result DTO for the voice-activity-detection task — the data noun VAD tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
 
-Total: 4 notebooks
+Total: 5 notebooks
 
 ## Module Dependencies
 
 ``` mermaid
 graph LR
     forced_alignment["forced_alignment<br/>Forced Alignment Result"]
+    media_processing["media_processing<br/>Media Processing Results"]
     source_separation["source_separation<br/>Source Separation Result"]
     transcription["transcription<br/>Transcription Result"]
     vad["vad<br/>VAD Result"]
@@ -81,6 +83,113 @@ class ForcedAlignResult:
 `items` holds typed `ForcedAlignItem` objects, so the substrate's typed
 wire envelope (stage 2) reconstructs them host-side here rather than
 leaving bare dicts (which would break attribute access like `it.text`)."
+```
+
+### Media Processing Results (`media_processing.ipynb`)
+
+> Standardized result DTOs for the media-processing task — the data
+> nouns media-processing tool capabilities (ffmpeg today) emit and the
+> multi-method task adapter / workflow cores consume, wire-registered so
+> results cross the worker boundary typed.
+
+#### Import
+
+``` python
+from cjm_capability_primitives.media_processing import (
+    MediaSegment,
+    MediaArtifactResult,
+    MediaSegmentationResult,
+    MediaMetadata
+)
+```
+
+#### Classes
+
+``` python
+@dataclass
+class MediaSegment:
+    """
+    One produced segment file from a `segment_audio` batch cut.
+    
+    The per-segment entry the fused-era ffmpeg `segment_audio` returned as a
+    dict, now a typed noun (the dead `job_id` dropped — born-final; the adapter
+    owns persistence). Workflow cores read `index`/`output_path`/`start`/`end`
+    to build the per-segment composition.
+    """
+    
+    index: int  # 0-based position of this segment within the batch
+    output_path: str  # Path to the produced segment file the tool wrote
+    start: float  # Segment start time in the source (seconds)
+    end: float  # Segment end time in the source (seconds)
+    duration: float  # end - start (seconds)
+    
+    def to_dict(self) -> Dict[str, Any]:  # Serialized representation
+        "Convert to dictionary for JSON serialization."
+```
+
+``` python
+@dataclass
+class MediaArtifactResult:
+    """
+    A single produced audio artifact (the `convert` / `extract_audio` output).
+    
+    The artifact-producing shape (cf. `SourceSeparationResult`): `output_path`
+    is the file the tool wrote to the adapter-chosen location; `metadata`
+    carries the stats the fused-era return dict / row held (codec, duration,
+    stream_copy, the effective convert parameters, ...). Flat fields (str +
+    dict), so the default wire reconstruction suffices — no custom from_dict.
+    """
+    
+    output_path: str  # Path to the produced audio file
+    metadata: Dict[str, Any] = field(...)  # Stats (codec, duration, parameters, ...)
+```
+
+``` python
+@dataclass
+class MediaSegmentationResult:
+    """
+    A BATCH of produced segment files (the `segment_audio` output).
+    
+    Holds typed `MediaSegment`s plus the batch metadata the fused-era return
+    dict carried (`input_path`, `segment_count`, `total_duration`, `batch_key`
+    — the label linking the cut files in the run manifest). Because `segments`
+    holds typed objects, a custom `from_dict` re-types them on wire-decode (the
+    auto flat reconstruct would leave bare dicts, breaking `seg.output_path`
+    access) — the `VADResult` precedent.
+    """
+    
+    segments: List[MediaSegment]  # The produced segment files, ordered by index
+    input_path: str = ''  # The source audio that was cut
+    segment_count: int = 0  # Number of segments produced
+    total_duration: float = 0.0  # Sum of segment durations (seconds)
+    batch_key: str = ''  # Label linking this batch's cut files (run-manifest field)
+    
+    def from_dict(
+        "Reconstruct from a wire payload, re-typing nested MediaSegments."
+```
+
+``` python
+@dataclass
+class MediaMetadata:
+    """
+    Probed metadata for a media file (the `get_info` result) — inline data, no artifact.
+    
+    Relocated to `cjm-capability-primitives` from the dissolving
+    `cjm-media-plugin-system.core` (the `TranscriptionResult`/`ForcedAlignResult`
+    relocation precedent). `get_info` is the media-processing task's UNCACHED
+    probe op, so this is a read result, not a produced-artifact pointer. The
+    stream lists are plain dicts, so the default wire reconstruction suffices.
+    """
+    
+    path: str  # File path probed
+    duration: float  # Duration in seconds
+    format: str  # Container format (e.g. 'mp4', 'mkv')
+    size_bytes: int  # File size in bytes
+    video_streams: List[Dict[str, Any]] = field(...)  # Per-video-stream info (codec, width, height, fps)
+    audio_streams: List[Dict[str, Any]] = field(...)  # Per-audio-stream info (codec, sample_rate, channels, duration)
+    
+    def to_dict(self) -> Dict[str, Any]:  # Serialized representation
+        "Convert to dictionary for JSON serialization."
 ```
 
 ### Source Separation Result (`source_separation.ipynb`)
