@@ -14,11 +14,12 @@ pip install cjm_capability_primitives
     nbs/
     ├── forced_alignment.ipynb  # Standardized word-level forced-alignment DTOs — the data noun forced-alignment tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
     ├── media_processing.ipynb  # Standardized result DTOs for the media-processing task — the data nouns media-processing tool capabilities (ffmpeg today) emit and the multi-method task adapter / workflow cores consume, wire-registered so results cross the worker boundary typed.
+    ├── monitoring.ipynb        # Standardized telemetry DTOs for the system-monitor capability — the data nouns a monitor tool capability emits (host CPU/RAM + aggregated GPU stats, and per-process GPU usage) and the substrate scheduler consumes for resource-derived admission + GPU subtree attribution.
     ├── source_separation.ipynb # Standardized result DTO for the source-separation (audio-preprocessing) task — the data noun source-separation tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
     ├── transcription.ipynb     # Standardized result DTO for the transcription task — the data noun tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
     └── vad.ipynb               # Standardized result DTO for the voice-activity-detection task — the data noun VAD tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
 
-Total: 5 notebooks
+Total: 6 notebooks
 
 ## Module Dependencies
 
@@ -26,6 +27,7 @@ Total: 5 notebooks
 graph LR
     forced_alignment["forced_alignment<br/>Forced Alignment Result"]
     media_processing["media_processing<br/>Media Processing Results"]
+    monitoring["monitoring<br/>System Monitoring DTOs"]
     source_separation["source_separation<br/>Source Separation Result"]
     transcription["transcription<br/>Transcription Result"]
     vad["vad<br/>VAD Result"]
@@ -190,6 +192,78 @@ class MediaMetadata:
     
     def to_dict(self) -> Dict[str, Any]:  # Serialized representation
         "Convert to dictionary for JSON serialization."
+```
+
+### System Monitoring DTOs (`monitoring.ipynb`)
+
+> Standardized telemetry DTOs for the system-monitor capability — the
+> data nouns a monitor tool capability emits (host CPU/RAM + aggregated
+> GPU stats, and per-process GPU usage) and the substrate scheduler
+> consumes for resource-derived admission + GPU subtree attribution.
+
+#### Import
+
+``` python
+from cjm_capability_primitives.monitoring import (
+    SystemStats,
+    ProcessStats,
+    MonitorToolProtocol
+)
+```
+
+#### Classes
+
+``` python
+@dataclass
+class SystemStats:
+    "Standardized snapshot of host + GPU resources (the scheduler's admission input)."
+    
+    cpu_percent: float = 0.0  # Overall CPU utilization percentage
+    memory_used_mb: float = 0.0  # Currently used system RAM in MB
+    memory_total_mb: float = 0.0  # Total system RAM in MB
+    memory_available_mb: float = 0.0  # Available system RAM in MB
+    gpu_type: str = 'None'  # GPU vendor: 'NVIDIA', 'AMD', 'Intel', 'None'
+    gpu_free_memory_mb: float = 0.0  # Free GPU memory in MB
+    gpu_total_memory_mb: float = 0.0  # Total GPU memory in MB
+    gpu_used_memory_mb: float = 0.0  # Used GPU memory in MB
+    gpu_load_percent: float = 0.0  # GPU compute utilization percentage
+    
+    def to_dict(self) -> Dict[str, Any]:  # Serialized representation
+        "Convert to dictionary for JSON serialization."
+```
+
+``` python
+@dataclass
+class ProcessStats:
+    "Per-process GPU usage, reported by a monitor's `list_processes` (GPU subtree attribution)."
+    
+    pid: int = 0  # OS process ID
+    gpu_index: int = -1  # GPU index (0-based); -1 if not GPU-bound or unknown
+    gpu_memory_mb: float = 0.0  # GPU memory attributable to this process, in MB
+    command: str = ''  # Process command line (or short name)
+    
+    def to_dict(self) -> Dict[str, Any]:  # Serialized representation
+        "Convert to dictionary for JSON serialization."
+```
+
+``` python
+@runtime_checkable
+class MonitorToolProtocol(Protocol):
+    """
+    The native surface a system-monitor tool capability exposes.
+    
+    The substrate consumes a monitor through this surface by NAME (duck-typed,
+    host-no-imports per CR-1) — `get_system_status` feeds resource-derived
+    admission; `list_processes` feeds per-worker GPU subtree attribution. There
+    is no task adapter: this is the native-dispatch contract, and the manifest's
+    `structural_surface` is what a future auto-detect could match against. Platform
+    monitors (NVIDIA today; Intel / AMD / Apple Silicon later) each implement it.
+    """
+    
+    def get_system_status(self) -> SystemStats: ...      # Current host + aggregated GPU telemetry
+        def list_processes(self) -> List[ProcessStats]: ...  # Per-process GPU usage ([] if no per-process visibility)
+    
+    def list_processes(self) -> List[ProcessStats]: ...  # Per-process GPU usage ([] if no per-process visibility)
 ```
 
 ### Source Separation Result (`source_separation.ipynb`)
