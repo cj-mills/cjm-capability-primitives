@@ -11,7 +11,7 @@ __all__ = ['TranscriptionResult']
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
 
-from cjm_plugin_system.core.wire import wire_type
+from cjm_substrate.core.wire import wire_type
 
 # %% ../nbs/transcription.ipynb #b7571f24
 @wire_type("transcription.result")

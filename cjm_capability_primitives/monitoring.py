@@ -11,7 +11,7 @@ __all__ = ['SystemStats', 'ProcessStats', 'MonitorToolProtocol']
 from dataclasses import dataclass, asdict
 from typing import Any, Dict, List, Protocol, runtime_checkable
 
-from cjm_plugin_system.core.wire import wire_type
+from cjm_substrate.core.wire import wire_type
 
 # %% ../nbs/monitoring.ipynb #bae5e5ff
 @wire_type("monitoring.system_stats")

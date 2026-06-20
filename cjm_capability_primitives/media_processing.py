@@ -11,7 +11,7 @@ __all__ = ['MediaSegment', 'MediaArtifactResult', 'MediaSegmentationResult', 'Me
 from dataclasses import dataclass, field, asdict
 from typing import Any, Dict, List
 
-from cjm_plugin_system.core.wire import wire_type
+from cjm_substrate.core.wire import wire_type
 
 # %% ../nbs/media_processing.ipynb #1bf51875
 @dataclass

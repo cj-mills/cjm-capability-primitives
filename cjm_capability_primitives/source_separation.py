@@ -11,7 +11,7 @@ __all__ = ['SourceSeparationResult']
 from dataclasses import dataclass, field
 from typing import Any, Dict
 
-from cjm_plugin_system.core.wire import wire_type
+from cjm_substrate.core.wire import wire_type
 
 # %% ../nbs/source_separation.ipynb #1bf51875
 @wire_type("source_separation.result")

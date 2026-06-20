@@ -11,7 +11,7 @@ __all__ = ['TimeRange', 'VADResult']
 from dataclasses import dataclass, field, asdict
 from typing import Any, Dict, List, Optional
 
-from cjm_plugin_system.core.wire import wire_type
+from cjm_substrate.core.wire import wire_type
 
 # %% ../nbs/vad.ipynb #b153c97b
 @dataclass
