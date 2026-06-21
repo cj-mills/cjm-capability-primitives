@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://cj-mills.github.io/cjm-capability-primitives/media_processing.html</loc>
+    <lastmod>2026-06-21T05:17:52.408Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cj-mills.github.io/cjm-capability-primitives/transcription.html</loc>
+    <lastmod>2026-06-21T05:17:52.479Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cj-mills.github.io/cjm-capability-primitives/source_separation.html</loc>
+    <lastmod>2026-06-21T05:17:52.456Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cj-mills.github.io/cjm-capability-primitives/monitoring.html</loc>
+    <lastmod>2026-06-21T05:17:52.423Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cj-mills.github.io/cjm-capability-primitives/forced_alignment.html</loc>
+    <lastmod>2026-06-21T05:17:52.337Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cj-mills.github.io/cjm-capability-primitives/index.html</loc>
+    <lastmod>2026-06-21T05:17:52.323Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cj-mills.github.io/cjm-capability-primitives/vad.html</loc>
+    <lastmod>2026-06-21T05:17:52.508Z</lastmod>
+  </url>
+</urlset>
