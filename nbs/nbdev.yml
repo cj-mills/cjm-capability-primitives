@@ -1,9 +1,0 @@
-project:
-  output-dir: _docs
-
-website:
-  title: "cjm-capability-primitives"
-  site-url: "https://cj-mills.github.io/cjm-capability-primitives"
-  description: "The dep-light primitives library for the cjm capability ecosystem — defines the shared cross-task result DTOs (data nouns) that tool capabilities emit and task adapters, workflow cores, and the composition layer all consume, so a pure-compute tool capability depends only on its task's data noun, never on the adapter machinery."
-  repo-branch: main
-  repo-url: "https://github.com/cj-mills/cjm-capability-primitives"
