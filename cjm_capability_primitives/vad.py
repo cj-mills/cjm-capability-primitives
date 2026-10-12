@@ -9,6 +9,7 @@ from cjm_substrate.core.wire import wire_type
 @dataclass
 class TimeRange:
     """A temporal segment within an audio source (the VAD speech/silence span)."""
+
     start: float                                           # Start time in seconds
     end: float                                             # End time in seconds
     label: str = "speech"                                  # Segment type (e.g. 'speech')
@@ -24,6 +25,7 @@ class TimeRange:
 @dataclass
 class VADResult:
     """Standardized output for voice-activity-detection capabilities."""
+
     ranges: List[TimeRange]                                 # Detected speech segments, sorted by start
     metadata: Dict[str, Any] = field(default_factory=dict)  # Global VAD stats (duration, sample_rate, total_speech, ...)
 

@@ -18,6 +18,7 @@ from cjm_substrate.core.wire import wire_type
 @dataclass
 class SystemStats:
     """Standardized snapshot of host + GPU resources (the scheduler's admission input)."""
+
     # CPU
     cpu_percent: float = 0.0           # Overall CPU utilization percentage
     # Memory (RAM admission checks)
@@ -40,6 +41,7 @@ class SystemStats:
 @dataclass
 class ProcessStats:
     """Per-process GPU usage, reported by a monitor's `list_processes` (GPU subtree attribution)."""
+
     pid: int = 0                # OS process ID
     gpu_index: int = -1         # GPU index (0-based); -1 if not GPU-bound or unknown
     gpu_memory_mb: float = 0.0  # GPU memory attributable to this process, in MB
@@ -61,5 +63,6 @@ class MonitorToolProtocol(Protocol):
     `structural_surface` is what a future auto-detect could match against. Platform
     monitors (NVIDIA today; Intel / AMD / Apple Silicon later) each implement it.
     """
+
     def get_system_status(self) -> SystemStats: ...      # Current host + aggregated GPU telemetry
     def list_processes(self) -> List[ProcessStats]: ...  # Per-process GPU usage ([] if no per-process visibility)

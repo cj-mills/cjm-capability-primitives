@@ -19,6 +19,7 @@ class MediaSegment:
     dict, now a typed noun (the dead `job_id` dropped — born-final; the adapter
     owns persistence). Workflow cores read `index`/`output_path`/`start`/`end`
     to build the per-segment composition."""
+
     index: int        # 0-based position of this segment within the batch
     output_path: str  # Path to the produced segment file the tool wrote
     start: float      # Segment start time in the source (seconds)
@@ -40,6 +41,7 @@ class MediaArtifactResult:
     carries the stats the fused-era return dict / row held (codec, duration,
     stream_copy, the effective convert parameters, ...). Flat fields (str +
     dict), so the default wire reconstruction suffices — no custom from_dict."""
+
     output_path: str                                        # Path to the produced audio file
     metadata: Dict[str, Any] = field(default_factory=dict)  # Stats (codec, duration, parameters, ...)
 
@@ -55,6 +57,7 @@ class MediaSegmentationResult:
     holds typed objects, a custom `from_dict` re-types them on wire-decode (the
     auto flat reconstruct would leave bare dicts, breaking `seg.output_path`
     access) — the `VADResult` precedent."""
+
     segments: List[MediaSegment]          # The produced segment files, ordered by index
     input_path: str = ""                  # The source audio that was cut
     segment_count: int = 0                # Number of segments produced
@@ -87,6 +90,7 @@ class MediaMetadata:
     relocation precedent). `get_info` is the media-processing task's UNCACHED
     probe op, so this is a read result, not a produced-artifact pointer. The
     stream lists are plain dicts, so the default wire reconstruction suffices."""
+
     path: str                                                          # File path probed
     duration: float                                                    # Duration in seconds
     format: str                                                        # Container format (e.g. 'mp4', 'mkv')

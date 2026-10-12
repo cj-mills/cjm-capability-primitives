@@ -16,5 +16,6 @@ class SourceSeparationResult:
     location the adapter chose. `metadata` carries the stats the fused-era
     return dict held (duration, sample_rate, model, stems_available, and any
     extra-stem paths when the tool was asked to keep them)."""
+
     output_path: str                                        # Path to the produced isolated-audio artifact (e.g. vocals stem)
     metadata: Dict[str, Any] = field(default_factory=dict)  # Stats (duration, sample_rate, model, stems_available, other_stems, ...)

@@ -13,6 +13,7 @@ from cjm_substrate.core.wire import wire_type
 class SpeakerTurn:
     """One diarized speech turn: a source-coordinate time span bound to an
     ANONYMOUS speaker cluster label (identity is downstream human judgment)."""
+
     start: float                       # Turn start in source coordinates (seconds)
     end: float                         # Turn end in source coordinates (seconds)
     speaker: str                       # Anonymous cluster label (e.g. "SPEAKER_00") — stable within one result, never an identity
@@ -34,6 +35,7 @@ class SpeakerDiarizationResult:
     physical speaker gets one label WITHIN a result, but labels carry no
     meaning across results — cross-result identity is the assignment lane's
     cluster-name-once verdict (DEC 8a4df244)."""
+
     turns: List[SpeakerTurn]                                # Time-ordered anonymous speech turns
     metadata: Dict[str, Any] = field(default_factory=dict)  # Pipeline stats (speaker_count, model_id, ...)
 

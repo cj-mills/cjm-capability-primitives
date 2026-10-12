@@ -10,6 +10,7 @@ from cjm_substrate.core.wire import wire_type
 class SentenceSpan:
     """One sentence's character span over the ORIGINAL (punctuated) text —
     half-open [start_char, end_char), trimmed to non-whitespace extents."""
+
     start_char: int  # Span start (inclusive) in the original text
     end_char: int    # Span end (exclusive) in the original text
 
@@ -28,6 +29,7 @@ class SentenceSegmentationResult:
     valid (no cleaning/normalization is reflected here; a tool that must
     normalize internally still reports spans over the original input).
     """
+
     spans: List[SentenceSpan]                               # Ordered sentence spans over the original text
     metadata: Dict[str, Any] = field(default_factory=dict)  # Segmenter stats (sentence_count, language, ...)
 

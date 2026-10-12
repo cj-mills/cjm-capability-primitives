@@ -16,6 +16,7 @@ from cjm_substrate.core.wire import wire_type
 @dataclass
 class TranscriptionResult:
     """Standardized output for all transcription plugins."""
+
     text: str                                        # The transcribed text
     confidence: Optional[float] = None               # Overall confidence (0.0 to 1.0)
     segments: Optional[List[Dict[str, Any]]] = None  # Timestamped segments

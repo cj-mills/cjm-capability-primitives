@@ -16,6 +16,7 @@ from cjm_substrate.core.wire import wire_type
 @dataclass
 class ForcedAlignItem:
     """A single word-level alignment result."""
+
     text: str        # The aligned word (punctuation typically stripped by model)
     start_time: float  # Start time in seconds
     end_time: float    # End time in seconds
@@ -25,6 +26,7 @@ class ForcedAlignItem:
 @dataclass
 class ForcedAlignResult:
     """Standardized output for all forced alignment capabilities."""
+
     items: List[ForcedAlignItem]                          # Word-level alignments
     metadata: Dict[str, Any] = field(default_factory=dict)  # Capability-specific metadata
 
