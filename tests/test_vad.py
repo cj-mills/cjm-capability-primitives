@@ -1,10 +1,11 @@
 """Tests for cjm_capability_primitives.vad — the vad.result DTO.
 
 Projected from the vad notebook's test cells at the c25780e8 flip."""
+
 import json
 
 from cjm_capability_primitives.vad import TimeRange, VADResult
-from cjm_substrate.core.wire import WIRE_KIND_KEY, wire_decode, wire_encode
+from cjm_substrate.core.wire import wire_decode, wire_encode, WIRE_KIND_KEY
 
 
 def test_vad_result_and_minimal():

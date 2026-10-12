@@ -1,9 +1,9 @@
 """Tests for cjm_capability_primitives.sentence_segmentation — the sentence_segmentation.result DTO."""
+
 import json
 
-from cjm_capability_primitives.sentence_segmentation import (SentenceSegmentationResult,
-                                                             SentenceSpan)
-from cjm_substrate.core.wire import WIRE_KIND_KEY, wire_decode, wire_encode
+from cjm_capability_primitives.sentence_segmentation import SentenceSegmentationResult, SentenceSpan
+from cjm_substrate.core.wire import wire_decode, wire_encode, WIRE_KIND_KEY
 
 
 def test_result_and_minimal():

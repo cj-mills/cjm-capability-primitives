@@ -1,7 +1,7 @@
 """Tests for cjm_capability_primitives.speaker_diarization — the speaker_diarization.result DTO."""
-from cjm_capability_primitives.speaker_diarization import (SpeakerDiarizationResult,
-                                                           SpeakerTurn)
-from cjm_substrate.core.wire import WIRE_KIND_KEY, wire_decode, wire_encode
+
+from cjm_capability_primitives.speaker_diarization import SpeakerDiarizationResult, SpeakerTurn
+from cjm_substrate.core.wire import wire_decode, wire_encode, WIRE_KIND_KEY
 
 
 def test_result_and_minimal():

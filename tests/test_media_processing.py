@@ -1,11 +1,12 @@
 """Tests for cjm_capability_primitives.media_processing — the multi-method task family's DTOs.
 
 Projected from the media_processing notebook's test cells at the c25780e8 flip."""
+
 import json
 
 from cjm_capability_primitives.media_processing import (MediaArtifactResult, MediaMetadata,
                                                         MediaSegment, MediaSegmentationResult)
-from cjm_substrate.core.wire import WIRE_KIND_KEY, wire_decode, wire_encode
+from cjm_substrate.core.wire import wire_decode, wire_encode, WIRE_KIND_KEY
 
 
 def test_media_artifact_result():

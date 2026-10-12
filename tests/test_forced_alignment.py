@@ -1,11 +1,12 @@
 """Tests for cjm_capability_primitives.forced_alignment — word-level FA DTOs.
 
 Projected from the forced_alignment notebook's test cells at the c25780e8 flip."""
+
 import json
 from dataclasses import asdict
 
 from cjm_capability_primitives.forced_alignment import ForcedAlignItem, ForcedAlignResult
-from cjm_substrate.core.wire import WIRE_KIND_KEY, wire_decode, wire_encode
+from cjm_substrate.core.wire import wire_decode, wire_encode, WIRE_KIND_KEY
 
 
 def test_item_round_trip():

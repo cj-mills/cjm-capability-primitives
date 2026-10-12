@@ -1,11 +1,11 @@
 """Tests for cjm_capability_primitives.monitoring — telemetry DTOs + the native-dispatch protocol.
 
 Projected from the monitoring notebook's test cells at the c25780e8 flip."""
+
 import json
 
-from cjm_capability_primitives.monitoring import (MonitorToolProtocol, ProcessStats,
-                                                  SystemStats)
-from cjm_substrate.core.wire import WIRE_KIND_KEY, wire_decode, wire_encode
+from cjm_capability_primitives.monitoring import MonitorToolProtocol, ProcessStats, SystemStats
+from cjm_substrate.core.wire import wire_decode, wire_encode, WIRE_KIND_KEY
 
 
 def test_system_stats():

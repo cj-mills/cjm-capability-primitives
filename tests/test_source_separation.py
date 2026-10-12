@@ -1,10 +1,11 @@
 """Tests for cjm_capability_primitives.source_separation — the source_separation.result DTO.
 
 Projected from the source_separation notebook's test cells at the c25780e8 flip."""
+
 import json
 
 from cjm_capability_primitives.source_separation import SourceSeparationResult
-from cjm_substrate.core.wire import WIRE_KIND_KEY, wire_decode, wire_encode
+from cjm_substrate.core.wire import wire_decode, wire_encode, WIRE_KIND_KEY
 
 
 def test_source_separation_result_and_minimal():

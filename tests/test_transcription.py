@@ -1,10 +1,11 @@
 """Tests for cjm_capability_primitives.transcription — the transcription.result DTO.
 
 Projected from the transcription notebook's test cells at the c25780e8 flip."""
+
 import json
 
 from cjm_capability_primitives.transcription import TranscriptionResult
-from cjm_substrate.core.wire import WIRE_KIND_KEY, wire_decode, wire_encode
+from cjm_substrate.core.wire import wire_decode, wire_encode, WIRE_KIND_KEY
 
 
 def test_transcription_result_fields():
