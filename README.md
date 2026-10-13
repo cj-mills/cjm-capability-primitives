@@ -6,6 +6,7 @@ The dep-light primitives library for the cjm capability ecosystem — the shared
 
 ## Modules
 
+- **`cjm_capability_primitives.__init__`**
 - **`cjm_capability_primitives.forced_alignment`** — Standardized word-level forced-alignment DTOs — the data noun forced-alignment tool capabilities emit and task adapters / workflow cores consume, wire-registered so results cross the worker boundary typed.
 - **`cjm_capability_primitives.media_processing`** — Standardized result DTOs for the media-processing task — the data nouns media-processing tool capabilities (ffmpeg today) emit and the multi-method task adapter / workflow cores consume, wire-registered so results cross the worker boundary typed.
 - **`cjm_capability_primitives.monitoring`** — Standardized telemetry DTOs for the system-monitor capability — the data nouns a monitor tool capability emits (host CPU/RAM + aggregated GPU stats, and per-process GPU usage) and the substrate scheduler consumes for resource-derived admission + GPU subtree attribution.
@@ -64,4 +65,4 @@ The dep-light primitives library for the cjm capability ecosystem — the shared
 ## Dependencies
 
 **Depends on:** `cjm-substrate`
-**Used by:** `cjm-capability-demucs`, `cjm-capability-ffmpeg`, `cjm-capability-monitor-nvidia`, `cjm-capability-pyannote`, `cjm-capability-pysbd`, `cjm-capability-qwen3-forced-aligner`, `cjm-capability-silero-vad`, `cjm-capability-voxtral-hf`, `cjm-capability-whisper`, `cjm-sentence-segmentation-adapter-interface`, `cjm-speaker-diarization-adapter-interface`, `cjm-transcript-correction-tui`, `cjm-transcript-decomp-core`, `cjm-transcription-adapter-interface`, `cjm-transcription-core`
+**Used by:** `cjm-capability-demucs`, `cjm-capability-ffmpeg`, `cjm-capability-monitor-nvidia`, `cjm-capability-pyannote`, `cjm-capability-pysbd`, `cjm-capability-qwen3-forced-aligner`, `cjm-capability-silero-vad`, `cjm-capability-voxtral-hf`, `cjm-capability-whisper`, `cjm-sentence-segmentation-adapter-interface`, `cjm-speaker-diarization-adapter-interface`, `cjm-transcript-correction-core`, `cjm-transcript-decomp-core`, `cjm-transcription-adapter-interface`, `cjm-transcription-core`, `cjm-vad-adapter-interface`
